@@ -1,0 +1,4 @@
+services:
+  content_importer.importer.article:
+    class: '\Drupal\content_importer\Service\ArticleImporter'
+    arguments: ['@queue', '@http_client']

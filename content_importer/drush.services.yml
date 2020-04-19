@@ -1,0 +1,7 @@
+services:
+  content_importer.article_import:
+    class: \Drupal\content_importer\Commands\ArticleImportCommand
+    arguments:
+      - '@content_importer.importer.article'
+    tags:
+      - { name: drush.command }

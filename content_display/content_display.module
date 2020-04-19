@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * @file
+ */
+
+function content_display_theme($existing, $type, $theme, $path) {
+  return [
+    'article_item' => [
+      'variables' => ['articles' => []],
+    ],
+  ];
+}

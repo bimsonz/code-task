@@ -1,0 +1,11 @@
+{
+    "description": "Content Importer",
+    "extra": {
+        "drush": {
+            "services": {
+                "drush.services.yml": "^9"
+            }
+        }
+    },
+    "type": "drupal-module"
+}

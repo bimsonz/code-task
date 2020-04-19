@@ -1,0 +1,10 @@
+services:
+  user_manager_user_registration_subscriber:
+    class: '\Drupal\user_manager\EventSubscriber\UserRegistrationSubscriber'
+    arguments: ['@logger.factory']
+    tags:
+      - { name: 'event_subscriber' }
+  user_manager_user_login_subscriber:
+    class: '\Drupal\user_manager\EventSubscriber\UserLoginSubscriber'
+    tags:
+      - { name: 'event_subscriber' }

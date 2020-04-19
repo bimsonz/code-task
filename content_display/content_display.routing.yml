@@ -1,0 +1,5 @@
+content_display.article.list:
+  path: '/articles'
+  defaults: { _controller: '\Drupal\content_display\Controller\ArticleController::list' }
+  requirements:
+    _permission: 'access content'

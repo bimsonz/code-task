@@ -1,0 +1,60 @@
+<?php
+
+/**
+ * @file
+ */
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\user\Entity\User;
+use Drupal\user_manager\Event\UserLoginEvent;
+use Drupal\user_manager\Event\UserRegistrationEvent;
+
+/**
+ * Implements hook_entity_insert().
+ */
+function user_manager_entity_insert(EntityInterface $entity) {
+  if ($entity instanceof User) {
+    $event = new UserRegistrationEvent($entity);
+
+    $eventDispatcher = \Drupal::service('event_dispatcher');
+    $eventDispatcher->dispatch(UserRegistrationEvent::EVENT_NAME, $event);
+  }
+}
+
+/**
+ * Implements hook_user_login().
+ */
+function user_manager_user_login($account) {
+  $event = new UserLoginEvent($account);
+
+  $eventDispatcher = \Drupal::service('event_dispatcher');
+  $eventDispatcher->dispatch(UserLoginEvent::EVENT_NAME, $event);
+}
+
+/**
+ * Implements hook_form_form_id_form_alter().
+ */
+function user_manager_form_user_register_form_alter(&$form, &$form_state, $form_id) {
+  $form['#validate'][] = 'user_manager_user_register_validate';
+}
+
+/**
+ * Validate user email.
+ *
+ * @param array $form
+ *   Form.
+ *
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   Form State.
+ */
+function user_manager_user_register_validate(&$form, FormStateInterface &$form_state) {
+  $restrictedDomain = 'hotmail.com';
+
+  if (mb_strpos($form_state->getValue('mail'), '@' . $restrictedDomain)) {
+    $form_state->setErrorByName(
+      'mail',
+      t('"@domain" is restricted, please use a different email address.', ['@domain' => $restrictedDomain])
+    );
+  }
+}
